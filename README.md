@@ -101,7 +101,7 @@ Full documentation: **<https://xiangao.github.io/torch-engression/>**
 
 | Page | Description |
 |------|-------------|
-| [Benchmark notebook](https://github.com/xiangao/torch-engression/blob/main/nb/benchmark.ipynb) | End-to-end runtime and distributional-fit benchmark |
+| [Benchmark notebook](https://github.com/xiangao/torch-engression/blob/master/nb/benchmark.ipynb) | End-to-end runtime and distributional-fit benchmark |
 | [Examples page](https://xiangao.github.io/torch-engression/examples/) | Notebook and generated benchmark figure links |
 
 ## API Reference
