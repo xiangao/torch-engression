@@ -1,0 +1,8 @@
+site_name: torch-engression
+site_url: https://xiangao.github.io/torch-engression/
+repo_url: https://github.com/xiangao/torch-engression
+
+nav:
+  - Home: index.md
+  - Examples: examples.md
+
