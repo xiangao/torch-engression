@@ -2,9 +2,11 @@
 
 [![docs](https://img.shields.io/badge/docs-site-blue.svg)](https://xiangao.github.io/torch-engression/)
 
-GPU-accelerated distributional regression via energy scores.
-
-A PyTorch-native reimplementation of [engression](https://github.com/xwshen51/engression) (Shen & Meinshausen, 2024) with automatic GPU acceleration, mixed precision training, and `torch.compile` support.
+`torch-engression` is a PyTorch implementation of
+[engression](https://github.com/xwshen51/engression) from Shen and Meinshausen
+(2024). It fits a stochastic neural network using the energy score, so the
+object of interest is the conditional distribution `P(Y | X)`, not only a
+conditional mean.
 
 ## Installation
 
@@ -93,7 +95,8 @@ Training time on GTX 1080 Ti (100 epochs, 3-layer StoNet, hidden_dim=100):
 | 50,000 | 17.6 | 1.3 | 13.4x |
 | 100,000 | 38.1 | 2.5 | **15.1x** |
 
-GPU time is nearly flat because the matrix multiplications parallelize across CUDA cores. See `nb/benchmark.ipynb` for full results.
+These timings are meant as a scale check, not as a universal benchmark. See
+`nb/benchmark.ipynb` for the script.
 
 ## Documentation & examples
 
