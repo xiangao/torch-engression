@@ -2,6 +2,22 @@ import pytest
 import torch
 
 
+def _cuda_is_usable():
+    if not torch.cuda.is_available():
+        return False
+    try:
+        x = torch.empty(1, device="cuda")
+        x += 1
+        torch.cuda.synchronize()
+        return True
+    except Exception:
+        return False
+
+
+if torch.cuda.is_available() and not _cuda_is_usable():
+    torch.cuda.is_available = lambda: False
+
+
 @pytest.fixture(scope="session")
 def seed_torch():
     """Set random seed for reproducible tests."""

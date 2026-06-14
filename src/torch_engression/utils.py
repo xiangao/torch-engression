@@ -4,6 +4,31 @@ import warnings
 import torch
 
 
+_CUDA_USABLE = None
+
+
+def cuda_is_usable():
+    """Return True only when CUDA is available and can execute a tiny op."""
+    global _CUDA_USABLE
+    if _CUDA_USABLE is not None:
+        return _CUDA_USABLE
+    if not torch.cuda.is_available():
+        _CUDA_USABLE = False
+        return False
+    try:
+        x = torch.empty(1, device="cuda")
+        x += 1
+        torch.cuda.synchronize()
+        _CUDA_USABLE = True
+    except Exception as exc:
+        warnings.warn(
+            "CUDA is visible to PyTorch but failed a basic execution check; "
+            f"falling back to CPU for automatic device selection ({exc})."
+        )
+        _CUDA_USABLE = False
+    return _CUDA_USABLE
+
+
 def auto_device(device=None):
     """Auto-detect the best available device.
 
@@ -17,7 +42,7 @@ def auto_device(device=None):
         torch.device
     """
     if device is None:
-        if torch.cuda.is_available():
+        if cuda_is_usable():
             return torch.device("cuda")
         elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
             warnings.warn(
@@ -84,6 +109,6 @@ def set_seed(seed):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
-    if torch.cuda.is_available():
+    if cuda_is_usable():
         torch.cuda.manual_seed(seed)
         torch.cuda.manual_seed_all(seed)
