@@ -22,7 +22,7 @@ torch-engression/
 
 ## Key Design Decisions
 
-- **Auto device detection**: `device=None` → CUDA > MPS > CPU (from torchonometrics)
+- **Auto device detection**: `device=None` → CUDA > MPS > CPU (from torchonometrics). `cuda_is_usable()` (utils.py) runs a tiny probe op and caches the result, so a visible-but-unusable CUDA device (e.g. `cudaErrorNoKernelImageForDevice` on an unsupported compute capability) warns once and falls back to CPU instead of crashing. Used by `auto_device` and `set_seed`.
 - **AMP scope**: Forward passes only in FP16. Energy loss in FP32 (catastrophic cancellation risk in s1 - s2/2)
 - **torch.compile**: Opt-in (`compile_model=False` default). Dynamic noise injection works with dynamo but adds warmup cost
 - **Parameter names**: Match original engression exactly (e.g., `num_layer` not `num_layers`)

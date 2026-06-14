@@ -68,6 +68,12 @@ model = engression(x, y, device="cuda")
 model = engression(x, y, device="cpu")
 ```
 
+Auto-detection probes the GPU before selecting it. A CUDA device can be *visible*
+to PyTorch yet unable to run kernels — for example a card whose compute capability
+the installed PyTorch wheel was not built for (`cudaErrorNoKernelImageForDevice`).
+In that case `device=None` warns once and falls back to CPU rather than crashing.
+Passing `device="cuda"` explicitly still forces the GPU.
+
 ### Mixed Precision Training
 
 On CUDA devices, training automatically uses mixed precision (AMP):
